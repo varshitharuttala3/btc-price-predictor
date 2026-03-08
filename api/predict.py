@@ -1,13 +1,15 @@
 import json
 import joblib
 import numpy as np
+import os
 
-model = joblib.load("model.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "../model.pkl")
+model = joblib.load(model_path)
 
 def handler(request):
 
     try:
-        body = json.loads(request.body.decode())
+        body = json.loads(request.body)
 
         open_price = float(body["open"])
         high = float(body["high"])
