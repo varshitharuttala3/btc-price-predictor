@@ -48,7 +48,7 @@ console.error("Prediction error:",error)
 
 function drawGraph(current,predicted){
 
-let ctx=document.getElementById("chart")
+let ctx=document.getElementById("chart").getContext("2d")
 
 if(chartInstance){
 chartInstance.destroy()
