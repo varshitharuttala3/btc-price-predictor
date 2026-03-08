@@ -1,38 +1,28 @@
 async function predictPrice() {
 
-    try {
+    const open = document.getElementById("open").value;
+    const high = document.getElementById("high").value;
+    const low = document.getElementById("low").value;
+    const volume = document.getElementById("volume").value;
 
-        let open = document.getElementById("open").value;
-        let high = document.getElementById("high").value;
-        let low = document.getElementById("low").value;
-        let volume = document.getElementById("volume").value;
+    const response = await fetch("/api/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            open: open,
+            high: high,
+            low: low,
+            volume: volume
+        })
+    });
 
-        const response = await fetch("/api/predict", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                open: open,
-                high: high,
-                low: low,
-                volume: volume
-            })
-        });
+    const data = await response.json();
 
-        const data = await response.json();
+    document.getElementById("result").innerText =
+        "Predicted Price: $" + data.prediction;
 
-        document.getElementById("result").innerText =
-            "Predicted Price: $" + data.prediction;
-
-        document.getElementById("suggestion").innerText =
-            "Suggestion: " + data.suggestion;
-
-    } catch (error) {
-
-        console.log(error);
-        document.getElementById("result").innerText =
-            "Error connecting to prediction API.";
-
-    }
+    document.getElementById("suggestion").innerText =
+        "Suggestion: " + data.suggestion;
 }
