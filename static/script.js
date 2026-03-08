@@ -1,9 +1,13 @@
+let chartInstance = null;
+
 async function predict(){
 
-let open = document.getElementById("open").value
-let high = document.getElementById("high").value
-let low = document.getElementById("low").value
-let volume = document.getElementById("volume").value
+let open = parseFloat(document.getElementById("open").value)
+let high = parseFloat(document.getElementById("high").value)
+let low = parseFloat(document.getElementById("low").value)
+let volume = parseFloat(document.getElementById("volume").value)
+
+try{
 
 let response = await fetch("/api/predict",{
 
@@ -34,11 +38,23 @@ drawGraph(open,data.prediction)
 
 }
 
+catch(error){
+
+console.error("Prediction error:",error)
+
+}
+
+}
+
 function drawGraph(current,predicted){
 
 let ctx=document.getElementById("chart")
 
-new Chart(ctx,{
+if(chartInstance){
+chartInstance.destroy()
+}
+
+chartInstance = new Chart(ctx,{
 
 type:"line",
 
@@ -60,6 +76,10 @@ tension:0.3
 
 }]
 
+},
+
+options:{
+responsive:true
 }
 
 })
