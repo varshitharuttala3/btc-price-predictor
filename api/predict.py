@@ -6,23 +6,33 @@ model = joblib.load("model.pkl")
 
 def handler(request):
 
-    body = json.loads(request.body)
+    try:
+        body = json.loads(request.body.decode())
 
-    open_price = float(body["open"])
-    high = float(body["high"])
-    low = float(body["low"])
-    volume = float(body["volume"])
+        open_price = float(body["open"])
+        high = float(body["high"])
+        low = float(body["low"])
+        volume = float(body["volume"])
 
-    features = np.array([[open_price, high, low, volume]])
+        features = np.array([[open_price, high, low, volume]])
 
-    prediction = model.predict(features)[0]
+        prediction = model.predict(features)[0]
 
-    suggestion = "BUY" if prediction > open_price else "SELL"
+        suggestion = "BUY" if prediction > open_price else "SELL"
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "prediction": float(prediction),
-            "suggestion": suggestion
-        })
-    }
+        return {
+            "statusCode": 200,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps({
+                "prediction": float(prediction),
+                "suggestion": suggestion
+            })
+        }
+
+    except Exception as e:
+
+        return {
+            "statusCode": 500,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps({"error": str(e)})
+        }
