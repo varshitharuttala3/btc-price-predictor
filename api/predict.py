@@ -3,7 +3,9 @@ import joblib
 import numpy as np
 import os
 
-model_path = os.path.join(os.path.dirname(__file__), "../model.pkl")
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+model_path = os.path.join(BASE_DIR, "model.pkl")
+
 model = joblib.load(model_path)
 
 def handler(request):
