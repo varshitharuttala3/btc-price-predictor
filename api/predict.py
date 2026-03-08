@@ -2,13 +2,12 @@ import json
 import numpy as np
 import pickle
 
-model = pickle.load(open("model.pkl","rb"))
+model = pickle.load(open("model.pkl", "rb"))
 
 def handler(request):
 
     try:
-
-        data = json.loads(request.body)
+        data = request.get_json()
 
         open_price = float(data["open"])
         high = float(data["high"])
@@ -22,16 +21,18 @@ def handler(request):
         suggestion = "BUY" if prediction > open_price else "SELL"
 
         return {
-            "statusCode":200,
-            "body":json.dumps({
-                "prediction":float(prediction),
-                "suggestion":suggestion
-            })
+            "statusCode": 200,
+            "body": json.dumps({
+                "prediction": float(prediction),
+                "suggestion": suggestion
+            }),
+            "headers": {
+                "Content-Type": "application/json"
+            }
         }
 
     except Exception as e:
-
         return {
-            "statusCode":500,
-            "body":str(e)
+            "statusCode": 500,
+            "body": json.dumps({"error": str(e)})
         }
