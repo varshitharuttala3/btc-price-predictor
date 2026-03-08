@@ -8,7 +8,7 @@ model_path = os.path.join(BASE_DIR, "model.pkl")
 
 model = joblib.load(model_path)
 
-def handler(request):
+def main(request):
 
     try:
         body = json.loads(request.body)
