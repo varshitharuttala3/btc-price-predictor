@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bitcoin Insight AI</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<h1>Bitcoin Price Predictor</h1>
+
+<div class="container">
+
+<input id="open" placeholder="Open price">
+<input id="high" placeholder="High price">
+<input id="low" placeholder="Low price">
+<input id="volume" placeholder="Volume">
+
+<button onclick="predict()">Predict</button>
+
+<h2 id="result"></h2>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
