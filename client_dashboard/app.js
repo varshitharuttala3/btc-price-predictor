@@ -1,54 +1,54 @@
-let chart
+let chart;
 
-async function predict(){
+async function predict() {
 
-const open = document.getElementById("open").value
-const high = document.getElementById("high").value
-const low = document.getElementById("low").value
-const volume = document.getElementById("volume").value
+    const open = document.getElementById("open").value
+    const high = document.getElementById("high").value
+    const low = document.getElementById("low").value
+    const volume = document.getElementById("volume").value
 
-const response = await fetch("http://127.0.0.1:5000/predict",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-open:open,
-high:high,
-low:low,
-volume:volume
-})
-})
+    const response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            open: parseFloat(open),
+            high: parseFloat(high),
+            low: parseFloat(low),
+            volume: parseFloat(volume)
+        })
+    })
 
-const data = await response.json()
+    const data = await response.json()
 
-document.getElementById("result").innerText =
-"Predicted Price: $" + data.predicted_price +
-" | Suggestion: " + data.suggestion
+    const predicted = data.predicted_price
+    const suggestion = data.suggestion
 
-drawChart(data.predicted_price)
+    document.getElementById("result").innerText =
+        `Predicted Price: $${predicted} | Suggestion: ${suggestion}`
 
+    drawChart(predicted)
 }
 
-function drawChart(predicted){
+function drawChart(predicted) {
 
-const ctx = document.getElementById("chart")
+    const ctx = document.getElementById("chart")
 
-if(chart) chart.destroy()
+    if(chart) chart.destroy()
 
-chart = new Chart(ctx,{
-type:"line",
-data:{
-labels:["Current","Predicted"],
-datasets:[{
-label:"BTC Price",
-data:[
-document.getElementById("open").value,
-predicted
-],
-borderColor:"green"
-}]
-}
-})
-
+    chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["Current", "Predicted"],
+            datasets: [{
+                label: "BTC Price",
+                data: [
+                    document.getElementById("open").value,
+                    predicted
+                ],
+                borderColor: "green"
+            }]
+        }
+    })
 }
