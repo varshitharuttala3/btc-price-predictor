@@ -2,31 +2,38 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from predictor import predict_price
 
-app = Flask(__name__)
-CORS(app)  # allow frontend requests
+app = Flask(**name**)
+CORS(app)
 
 @app.route("/")
 def home():
-    return {"message": "Bitcoin Prediction API running"}
+return {"message": "Bitcoin Prediction API running"}
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    try:
-        data = request.json
+try:
+data = request.json
 
-        features = [
-            data["open"],
-            data["high"],
-            data["low"],
-            data["volume"]
-        ]
+```
+    open_price = data["open"]  
+    high = data["high"]  
+    low = data["low"]  
+    volume = data["volume"]  
 
-        result = predict_price(features)
+    features = [open_price, high, low, volume]  
 
-        return jsonify(result)
+    predicted_price = predict_price(features)  
 
-    except Exception as e:
-        return jsonify({"error": str(e)})
+    suggestion = "BUY" if predicted_price > open_price else "SELL"  
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    return jsonify({  
+        "predicted_price": predicted_price,  
+        "suggestion": suggestion  
+    })  
+
+except Exception as e:  
+    return jsonify({"error": str(e)})  
+```
+
+if **name** == "**main**":
+app.run(debug=True)
