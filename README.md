@@ -30,6 +30,6 @@ python app.py
 
 3. Open frontend
 
-Open client_dashboard/index.html in browser.
+Open file:///C:/Users/Varshitha/Documents/btc-price-predictor/client_dashboard/index.html
 
 Enter price values and click Predict.
